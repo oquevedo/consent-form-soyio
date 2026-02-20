@@ -10,6 +10,40 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+html::before,
+html::after {
+  content: "";
+  position: fixed;
+  z-index: -2;
+  pointer-events: none;
+  border-radius: 999px;
+  filter: blur(104px);
+  will-change: transform, opacity;
+}
+
+html::before {
+  width: 64vmax;
+  height: 64vmax;
+  left: -30vmax;
+  top: -28vmax;
+  background: rgba(89, 133, 255, 0.42);
+  animation: soyio-orb-a 18s linear infinite;
+}
+
+html::after {
+  width: 60vmax;
+  height: 60vmax;
+  right: -30vmax;
+  top: 2vmax;
+  background: rgba(148, 113, 249, 0.4);
+  animation: soyio-orb-b 22s linear infinite;
+}
+
 *,
 *::before,
 *::after {
@@ -18,15 +52,19 @@
 
 body {
   position: relative;
+  isolation: isolate;
   overflow-x: hidden;
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
   color: #1e214a;
   background:
-    radial-gradient(950px 560px at -6% -20%, rgba(112, 183, 146, 0.22) 0%, rgba(112, 183, 146, 0) 62%),
-    radial-gradient(780px 420px at 108% 4%, rgba(111, 133, 215, 0.17) 0%, rgba(111, 133, 215, 0) 58%),
-    linear-gradient(180deg, #f8fbfd 0%, #f3f6fb 56%, #f1f5fa 100%);
+    radial-gradient(1180px 700px at -8% -24%, rgba(101, 143, 255, 0.18) 0%, rgba(101, 143, 255, 0) 64%),
+    radial-gradient(1080px 640px at 56% 108%, rgba(154, 125, 244, 0.18) 0%, rgba(154, 125, 244, 0) 64%),
+    linear-gradient(180deg, #fbfcff 0%, #f5f7fc 58%, #f4f6fb 100%);
+  background-repeat: no-repeat;
+  background-size: 200% 200%, 205% 205%, 100% 100%;
+  animation: soyio-ambient-shift 24s linear infinite;
 }
 
 body::before,
@@ -36,26 +74,31 @@ body::after {
   pointer-events: none;
   z-index: -1;
   border-radius: 999px;
-  filter: blur(70px);
+  filter: blur(100px);
+  will-change: transform, opacity;
 }
 
 body::before {
-  width: 360px;
-  height: 360px;
-  top: 22%;
-  left: -140px;
-  background: rgba(141, 197, 170, 0.2);
+  width: 58vmax;
+  height: 58vmax;
+  left: -24vmax;
+  bottom: -30vmax;
+  background: rgba(118, 166, 255, 0.34);
+  animation: soyio-orb-c 20s linear infinite;
 }
 
 body::after {
-  width: 300px;
-  height: 300px;
-  right: -100px;
-  bottom: 15%;
-  background: rgba(141, 157, 214, 0.16);
+  width: 62vmax;
+  height: 62vmax;
+  right: -30vmax;
+  bottom: -32vmax;
+  background: rgba(183, 126, 245, 0.36);
+  animation: soyio-orb-d 26s linear infinite;
 }
 
 .page-shell {
+  position: relative;
+  z-index: 1;
   min-height: 100vh;
   max-width: 720px;
   margin: 0 auto;
@@ -92,6 +135,9 @@ body::after {
 }
 
 .consent-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   width: 100%;
   background-color: #fff;
   border: 1px solid #e6ebf3;
@@ -171,9 +217,28 @@ a:focus-visible {
 }
 
 .contact-form-block {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
   margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #e6ebf3;
+  padding: 1.2rem;
+  border: 1px solid #e6ebf3;
+  border-radius: 14px;
+  background: #fff !important;
+}
+
+.contact-form-block::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: #fff;
+}
+
+.contact-form-block > * {
+  position: relative;
+  z-index: 1;
 }
 
 .contact-form {
@@ -279,6 +344,113 @@ input.is-invalid {
   margin-top: 0.15rem;
 }
 
+@keyframes soyio-ambient-shift {
+  0% {
+    background-position: -26% -30%, 36% 124%, 0 0;
+  }
+  33% {
+    background-position: -4% -6%, 52% 104%, 0 0;
+  }
+  66% {
+    background-position: 18% 14%, 70% 84%, 0 0;
+  }
+  100% {
+    background-position: -26% -30%, 36% 124%, 0 0;
+  }
+}
+
+@keyframes soyio-orb-a {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.92);
+    opacity: 0.5;
+  }
+  25% {
+    transform: translate3d(20vmax, 8vmax, 0) scale(1.08);
+    opacity: 0.84;
+  }
+  50% {
+    transform: translate3d(36vmax, 24vmax, 0) scale(1.2);
+    opacity: 0.72;
+  }
+  75% {
+    transform: translate3d(14vmax, 30vmax, 0) scale(1.04);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.92);
+    opacity: 0.5;
+  }
+}
+
+@keyframes soyio-orb-b {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.94);
+    opacity: 0.5;
+  }
+  25% {
+    transform: translate3d(-18vmax, 6vmax, 0) scale(1.1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate3d(-34vmax, 18vmax, 0) scale(1.24);
+    opacity: 0.72;
+  }
+  75% {
+    transform: translate3d(-10vmax, 30vmax, 0) scale(1.06);
+    opacity: 0.58;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.94);
+    opacity: 0.5;
+  }
+}
+
+@keyframes soyio-orb-c {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.9);
+    opacity: 0.48;
+  }
+  25% {
+    transform: translate3d(14vmax, -8vmax, 0) scale(1.06);
+    opacity: 0.74;
+  }
+  50% {
+    transform: translate3d(30vmax, -20vmax, 0) scale(1.2);
+    opacity: 0.66;
+  }
+  75% {
+    transform: translate3d(12vmax, -30vmax, 0) scale(1.02);
+    opacity: 0.54;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.9);
+    opacity: 0.48;
+  }
+}
+
+@keyframes soyio-orb-d {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.9);
+    opacity: 0.48;
+  }
+  25% {
+    transform: translate3d(-16vmax, -6vmax, 0) scale(1.08);
+    opacity: 0.72;
+  }
+  50% {
+    transform: translate3d(-30vmax, -18vmax, 0) scale(1.2);
+    opacity: 0.64;
+  }
+  75% {
+    transform: translate3d(-12vmax, -30vmax, 0) scale(1.02);
+    opacity: 0.52;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.9);
+    opacity: 0.48;
+  }
+}
+
 @media (max-width: 640px) {
   .page-shell {
     padding: 1rem;
@@ -303,16 +475,16 @@ input.is-invalid {
   }
 
   body::before {
-    width: 280px;
-    height: 280px;
-    left: -130px;
-    top: 12%;
+    width: 62vmax;
+    height: 62vmax;
+    left: -26vmax;
+    bottom: -24vmax;
   }
 
   body::after {
-    width: 240px;
-    height: 240px;
-    right: -120px;
-    bottom: 12%;
+    width: 68vmax;
+    height: 68vmax;
+    right: -32vmax;
+    bottom: -30vmax;
   }
 }
