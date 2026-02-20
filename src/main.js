@@ -27,6 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const organizationSiteInput = document.querySelector("#organization-site");
   const organizationSiteError = document.querySelector("#organization-site-error");
   const form = document.querySelector(".contact-form");
+  const formStatus = document.querySelector("#form-status");
+  const submitButton = form?.querySelector("button[type='submit']");
 
   const validateOrganizationSite = () => {
     if (!organizationSiteInput) return true;
@@ -67,10 +69,73 @@ document.addEventListener("DOMContentLoaded", () => {
     organizationSiteInput.addEventListener("blur", validateOrganizationSite);
   }
 
+  const setFormStatus = (message, type) => {
+    if (!formStatus) return;
+
+    formStatus.hidden = false;
+    formStatus.textContent = message;
+    formStatus.classList.remove("is-success", "is-error");
+
+    if (type) {
+      formStatus.classList.add(type);
+    }
+  };
+
   if (form) {
-    form.addEventListener("submit", (event) => {
-      if (!validateOrganizationSite()) {
-        event.preventDefault();
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const isOrganizationSiteValid = validateOrganizationSite();
+      const isFormValid = form.checkValidity();
+
+      if (!isOrganizationSiteValid || !isFormValid) {
+        form.reportValidity();
+        return;
+      }
+
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
+      payload.phone = payload.phone?.trim() || "";
+      payload.submittedAt = new Date().toISOString();
+
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Enviando...";
+      }
+      setFormStatus("Estamos enviando tu solicitud...", "");
+
+      try {
+        const response = await fetch("/api/submit-request", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await response.json().catch(() => null);
+
+        if (!response.ok) {
+          throw new Error(result?.error || "No fue posible enviar la solicitud.");
+        }
+
+        setFormStatus("Solicitud enviada con éxito. Te contactaremos pronto.", "is-success");
+        form.reset();
+
+        if (organizationSiteError) {
+          organizationSiteError.hidden = true;
+          organizationSiteError.textContent = "";
+        }
+        if (organizationSiteInput) {
+          organizationSiteInput.classList.remove("is-invalid");
+        }
+      } catch (error) {
+        setFormStatus(error.message || "Ocurrió un error al enviar la solicitud.", "is-error");
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Enviar solicitud";
+        }
       }
     });
   }

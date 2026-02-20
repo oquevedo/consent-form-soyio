@@ -344,6 +344,31 @@ input.is-invalid {
   margin-top: 0.15rem;
 }
 
+.contact-form button[disabled] {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.form-status {
+  margin: 0.65rem 0 0;
+  padding: 0.7rem 0.8rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.form-status.is-success {
+  border: 1px solid #b0dfc5;
+  background: #edf9f1;
+  color: #1d5d39;
+}
+
+.form-status.is-error {
+  border: 1px solid #f2c4be;
+  background: #fff3f1;
+  color: #b42318;
+}
+
 @keyframes soyio-ambient-shift {
   0% {
     background-position: -26% -30%, 36% 124%, 0 0;
