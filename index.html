@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soyio Consentimientos</title>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand-link" href="https://soyio.id" aria-label="Ir a Soyio">
+          <img
+            class="brand-logo"
+            src="/soyio-logo.svg"
+            alt="Soyio"
+          />
+        </a>
+        <a href="https://soyio.id/centro-privacidad/" aria-label="Ver política de privacidad">Privacidad</a>
+      </header>
+
+      <main class="site-main">
+        <section class="consent-card" aria-labelledby="consent-title">
+          <h1 id="consent-title">Acá parte tu experiencia con Soyio</h1>
+          <p>
+            Garantizamos que cada dato que nos entregues está resguardado por una fuente de licitud: en este caso, tus
+            consentimientos. Cada consentimiento tiene una finalidad; por ejemplo, si quieres que te contactemos,
+            necesitamos el consentimiento de ventas.
+          </p>
+          <div class="consent-widgets">
+            <div id="consent-request-box"></div>
+            <div id="consent-request-box-2"></div>
+          </div>
+
+          <section class="contact-form-block" aria-labelledby="contact-form-title">
+            <h2 id="contact-form-title">Cuéntanos sobre tu organización</h2>
+            <form class="contact-form" action="#" method="post">
+              <div class="field full">
+                <label for="full-name">¿Cuál es tu nombre completo?</label>
+                <input id="full-name" name="fullName" type="text" autocomplete="name" required />
+              </div>
+
+              <div class="field full">
+                <label for="corporate-email">¿Cuál es tu correo electrónico corporativo?</label>
+                <small>
+                  Soyio es una plataforma orientada a empresas. Para continuar, utiliza un correo corporativo asociado
+                  a tu organización (no correos personales).
+                </small>
+                <input
+                  id="corporate-email"
+                  name="corporateEmail"
+                  type="email"
+                  autocomplete="email"
+                  pattern="^(?!.*@[gG][mM][aA][iI][lL]\.[cC][oO][mM]$).+@.+\..+$"
+                  title="Ingresa un correo corporativo (no se permite @gmail.com)"
+                  required
+                />
+              </div>
+
+              <div class="field">
+                <label for="country">¿Desde qué país nos contactas?</label>
+                <input id="country" name="country" type="text" autocomplete="country-name" required />
+              </div>
+
+              <div class="field">
+                <label for="organization">¿A qué organización representas?</label>
+                <input id="organization" name="organization" type="text" autocomplete="organization" required />
+              </div>
+
+              <div class="field">
+                <label for="organization-site">¿Cuál es del sitio web de la organización que representas?</label>
+                <input
+                  id="organization-site"
+                  name="organizationSite"
+                  type="url"
+                  placeholder="https://empresa.com"
+                  aria-describedby="organization-site-error"
+                  required
+                />
+                <small class="field-error" id="organization-site-error" role="alert" aria-live="polite" hidden></small>
+              </div>
+
+              <div class="field">
+                <label for="team-size">¿Cuántos colaboradores tiene tu organización?</label>
+                <select id="team-size" name="teamSize" required>
+                  <option value="">Selecciona una opción</option>
+                  <option value="1-10">1 a 10</option>
+                  <option value="11-50">11 a 50</option>
+                  <option value="51-200">51 a 200</option>
+                  <option value="201-500">201 a 500</option>
+                  <option value="500+">Más de 500</option>
+                </select>
+              </div>
+
+              <div class="field full">
+                <label for="job-title">¿Cuál es tu cargo dentro de la organización que representas?</label>
+                <select id="job-title" name="jobTitle" required>
+                  <option value="">Selecciona una opción</option>
+                  <option value="Alta Dirección">Alta Dirección</option>
+                  <option value="Responsable de Tecnología">Responsable de Tecnología</option>
+                  <option value="Responsable de Gobierno de Datos">Responsable de Gobierno de Datos</option>
+                  <option value="Responsable de Seguridad de la Información">Responsable de Seguridad de la Información</option>
+                  <option value="Responsable de Privacidad de Datos">Responsable de Privacidad de Datos</option>
+                  <option value="Responsable de Operaciones">Responsable de Operaciones</option>
+                  <option value="Gerente de Proyectos">Gerente de Proyectos</option>
+                  <option value="Compliance y Regulación">Compliance y Regulación</option>
+                  <option value="Asesor Legal">Asesor Legal</option>
+                  <option value="Consultor Externo">Consultor Externo</option>
+                  <option value="Especialista de Tecnología">Especialista de Tecnología</option>
+                  <option value="Especialista de Datos">Especialista de Datos</option>
+                  <option value="Otro Rol Administrativo/Operativo">Otro Rol Administrativo/Operativo</option>
+                </select>
+              </div>
+
+              <div class="field full">
+                <label for="need">¿Qué necesitas resolver hoy en relación a datos personales?</label>
+                <textarea id="need" name="need" rows="3" required></textarea>
+              </div>
+
+              <div class="field full">
+                <label for="details">¿Cuéntanos más detalles de tu solicitud?</label>
+                <textarea id="details" name="details" rows="4" required></textarea>
+              </div>
+
+              <fieldset class="field full fieldset">
+                <legend>¿Cómo prefieres que te contactemos?</legend>
+                <div class="contact-options">
+                  <label><input type="radio" name="preferredContact" value="email" required /> Correo electrónico</label>
+                  <label><input type="radio" name="preferredContact" value="phone" /> Llamada telefónica</label>
+                  <label><input type="radio" name="preferredContact" value="whatsapp" /> WhatsApp</label>
+                </div>
+              </fieldset>
+
+              <div class="field full">
+                <label for="phone">¿A qué número quieres que te llamemos?</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" />
+              </div>
+
+              <div class="field full">
+                <button type="submit">Enviar solicitud</button>
+              </div>
+            </form>
+          </section>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <small>&copy; Soyio</small>
+        <a href="https://soyio.id/terms" aria-label="Ver términos y condiciones">Términos</a>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
