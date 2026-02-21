@@ -27,55 +27,55 @@ const parseBody = (body) => {
 
 const toSafeString = (value) => (typeof value === "string" ? value.trim() : "");
 
-const buildSlackPayload = (data) => ({
-  text: `Nueva solicitud web de ${data.fullName} (${data.organization})`,
-  blocks: [
-    {
-      type: "header",
-      text: {
-        type: "plain_text",
-        text: "Nueva solicitud desde formulario web",
-        emoji: true,
-      },
-    },
-    {
-      type: "section",
-      fields: [
-        { type: "mrkdwn", text: `*Nombre:*\n${data.fullName}` },
-        { type: "mrkdwn", text: `*Email corporativo:*\n${data.corporateEmail}` },
-        { type: "mrkdwn", text: `*País:*\n${data.country}` },
-        { type: "mrkdwn", text: `*Organización:*\n${data.organization}` },
-        { type: "mrkdwn", text: `*Sitio web:*\n${data.organizationSite}` },
-        { type: "mrkdwn", text: `*Colaboradores:*\n${data.teamSize}` },
-        { type: "mrkdwn", text: `*Cargo:*\n${data.jobTitle}` },
-        { type: "mrkdwn", text: `*Contacto preferido:*\n${data.preferredContact}` },
-      ],
-    },
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: `*Necesidad principal:*\n${data.need}`,
-      },
-    },
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: `*Detalles:*\n${data.details}`,
-      },
-    },
-    {
-      type: "context",
-      elements: [
-        {
-          type: "mrkdwn",
-          text: `Teléfono: ${data.phone || "No informado"} | Fecha (UTC): ${data.submittedAt}`,
-        },
-      ],
-    },
-  ],
-});
+// const buildSlackPayload = (data) => ({
+//   text: `Nueva solicitud web de ${data.fullName} (${data.organization})`,
+//   blocks: [
+//     {
+//       type: "header",
+//       text: {
+//         type: "plain_text",
+//         text: "Nueva solicitud desde formulario web",
+//         emoji: true,
+//       },
+//     },
+//     {
+//       type: "section",
+//       fields: [
+//         { type: "mrkdwn", text: `*Nombre:*\n${data.fullName}` },
+//         { type: "mrkdwn", text: `*Email corporativo:*\n${data.corporateEmail}` },
+//         { type: "mrkdwn", text: `*País:*\n${data.country}` },
+//         { type: "mrkdwn", text: `*Organización:*\n${data.organization}` },
+//         { type: "mrkdwn", text: `*Sitio web:*\n${data.organizationSite}` },
+//         { type: "mrkdwn", text: `*Colaboradores:*\n${data.teamSize}` },
+//         { type: "mrkdwn", text: `*Cargo:*\n${data.jobTitle}` },
+//         { type: "mrkdwn", text: `*Contacto preferido:*\n${data.preferredContact}` },
+//       ],
+//     },
+//     {
+//       type: "section",
+//       text: {
+//         type: "mrkdwn",
+//         text: `*Necesidad principal:*\n${data.need}`,
+//       },
+//     },
+//     {
+//       type: "section",
+//       text: {
+//         type: "mrkdwn",
+//         text: `*Detalles:*\n${data.details}`,
+//       },
+//     },
+//     {
+//       type: "context",
+//       elements: [
+//         {
+//           type: "mrkdwn",
+//           text: `Teléfono: ${data.phone || "No informado"} | Fecha (UTC): ${data.submittedAt}`,
+//         },
+//       ],
+//     },
+//   ],
+// });
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -84,11 +84,11 @@ export default async function handler(req, res) {
   }
 
   const appsScriptUrl = process.env.GOOGLE_APPS_SCRIPT_URL;
-  const slackWebhookUrl = process.env.SLACK_WEBHOOK_URL;
+  // const slackWebhookUrl = process.env.SLACK_WEBHOOK_URL;
 
-  if (!appsScriptUrl || !slackWebhookUrl) {
+  if (!appsScriptUrl) {
     return res.status(500).json({
-      error: "Faltan variables de entorno: GOOGLE_APPS_SCRIPT_URL o SLACK_WEBHOOK_URL.",
+      error: "Falta variable de entorno: GOOGLE_APPS_SCRIPT_URL.",
     });
   }
 
@@ -116,28 +116,27 @@ export default async function handler(req, res) {
   };
 
   try {
-    const [sheetResponse, slackResponse] = await Promise.all([
-      fetch(appsScriptUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }),
-      fetch(slackWebhookUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(buildSlackPayload(data)),
-      }),
-    ]);
+    const sheetResponse = await fetch(appsScriptUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-    if (!sheetResponse.ok || !slackResponse.ok) {
+    // const slackResponse = await fetch(slackWebhookUrl, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(buildSlackPayload(data)),
+    // });
+
+    if (!sheetResponse.ok) {
       return res.status(502).json({
-        error: "No fue posible completar las integraciones externas.",
+        error: "No fue posible guardar la solicitud en Google Sheets.",
         sheetStatus: sheetResponse.status,
-        slackStatus: slackResponse.status,
+        // slackStatus: slackResponse.status,
       });
     }
 
