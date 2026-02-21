@@ -78,9 +78,14 @@ const toSafeString = (value) => (typeof value === "string" ? value.trim() : "");
 // });
 
 export default async function handler(req, res) {
+  if (req.method === "OPTIONS") {
+    res.setHeader("Allow", "POST, OPTIONS");
+    return res.status(204).end();
+  }
+
   if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
-    return res.status(405).json({ error: "Method not allowed" });
+    res.setHeader("Allow", "POST, OPTIONS");
+    return res.status(405).json({ error: "Method not allowed", method: req.method });
   }
 
   const appsScriptUrl = process.env.GOOGLE_APPS_SCRIPT_URL;
